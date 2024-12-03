@@ -17,13 +17,20 @@ func ParseOdometer(input string) (int, error) {
 	}
 
 	// unmarshalling into specific type according to model
-	switch m.Model {
-	case "A":
+	switch Model(m.Model) {
+	case ModelA:
 		var data ModelAData
 		if err := json.Unmarshal(m.Data, &data); err != nil {
 			return 0, fmt.Errorf("Error occured while unmarshaling into ModelA type: %v", err)
 		}
 		return data.Odometer, nil
+
+	case ModelB:
+		var data ModelBData
+		if err := json.Unmarshal(m.Data, &data); err != nil {
+			return 0, fmt.Errorf("Error occured while unmarshaling into ModelB type: %v", err)
+		}
+		return data.Speed.Odometer, nil
 
 	default:
 		return 0, nil

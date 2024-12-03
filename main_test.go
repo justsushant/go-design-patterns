@@ -18,6 +18,18 @@ func TestMain(t *testing.T) {
 			}`,
 			expOut: 243,
 		},
+		{
+			name: "model B json",
+			input: `{
+				"model": "B",
+				"data": {
+					"speed": {
+						"odometer": 512
+					}
+				}
+			}`,
+			expOut: 512,
+		},
 	}
 
 	for _, tc := range tt {
