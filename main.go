@@ -5,38 +5,27 @@ import (
 	"fmt"
 )
 
-type ModelEnvelope struct {
-	Model string          `json:"model"`
-	Data  json.RawMessage `json:"data"`
-}
-
-type ModelA struct {
-	Model string     `json:"model"`
-	Data  ModelAData `json:"data"`
-}
-
-type ModelAData struct {
-	Odometer int `json:"odometer"`
-}
-
 func main() {
 
 }
 
 func ParseOdometer(input string) (int, error) {
+	// unmarhalling into envelope type to determine the type of data
 	m := ModelEnvelope{}
 	if err := json.Unmarshal([]byte(input), &m); err != nil {
 		return 0, fmt.Errorf("Error occured while unmarshaling into envelope type: %v", err)
 	}
 
-	if m.Model == "A" {
+	// unmarshalling into specific type according to model
+	switch m.Model {
+	case "A":
 		var data ModelAData
 		if err := json.Unmarshal(m.Data, &data); err != nil {
 			return 0, fmt.Errorf("Error occured while unmarshaling into ModelA type: %v", err)
 		}
-
 		return data.Odometer, nil
-	}
 
-	return 0, nil
+	default:
+		return 0, nil
+	}
 }
