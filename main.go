@@ -32,6 +32,19 @@ func ParseOdometer(input string) (int, error) {
 		}
 		return data.Speed.Odometer, nil
 
+	case ModelC:
+		var data []ModelCDataPoint
+		if err := json.Unmarshal(m.Data, &data); err != nil {
+			return 0, fmt.Errorf("Error occured while unmarshaling into ModelB type: %v", err)
+		}
+
+		for _, d := range data {
+			if d.SpnName == "odometer" {
+				return d.Value, nil
+			}
+		}
+		return 0, nil
+
 	default:
 		return 0, nil
 	}

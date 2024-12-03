@@ -30,6 +30,27 @@ func TestMain(t *testing.T) {
 			}`,
 			expOut: 512,
 		},
+		{
+			name: "model C json",
+			input: `{
+				"model": "C",
+				"data": [
+					{
+						"spnId": 147,
+						"pgnId": "F023",
+						"spnName": "fuelLevel",
+						"value": 35
+					},
+					{
+						"spnId": 102,
+						"pgnId": "F003",
+						"spnName": "odometer",
+						"value": 6349303
+					}
+				]
+			}`,
+			expOut: 6349303,
+		},
 	}
 
 	for _, tc := range tt {
