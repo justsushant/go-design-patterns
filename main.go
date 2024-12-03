@@ -23,19 +23,27 @@ func ParseOdometer(input string) (int, error) {
 		if err := json.Unmarshal(m.Data, &data); err != nil {
 			return 0, fmt.Errorf("Error occured while unmarshaling into ModelA type: %v", err)
 		}
-		return data.Odometer, nil
+
+		if data.Odometer != nil {
+			return *data.Odometer, nil
+		}
+		return 0, ErrOdometerNotFound
 
 	case ModelB:
 		var data ModelBData
 		if err := json.Unmarshal(m.Data, &data); err != nil {
 			return 0, fmt.Errorf("Error occured while unmarshaling into ModelB type: %v", err)
 		}
-		return data.Speed.Odometer, nil
+
+		if data.Speed != nil && data.Speed.Odometer != nil {
+			return *data.Speed.Odometer, nil
+		}
+		return 0, ErrOdometerNotFound
 
 	case ModelC:
 		var data []ModelCDataPoint
 		if err := json.Unmarshal(m.Data, &data); err != nil {
-			return 0, fmt.Errorf("Error occured while unmarshaling into ModelB type: %v", err)
+			return 0, fmt.Errorf("Error occured while unmarshaling into ModelC type: %v", err)
 		}
 
 		for _, d := range data {
@@ -43,7 +51,7 @@ func ParseOdometer(input string) (int, error) {
 				return d.Value, nil
 			}
 		}
-		return 0, nil
+		return 0, ErrOdometerNotFound
 
 	default:
 		return 0, nil

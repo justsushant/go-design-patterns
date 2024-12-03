@@ -16,15 +16,15 @@ var (
 )
 
 type ModelAData struct {
-	Odometer int `json:"odometer"`
+	Odometer *int `json:"odometer"`
 }
 
 type ModelBData struct {
-	Speed ModelBSpeedData `json:"speed"`
+	Speed *ModelBSpeedData `json:"speed"`
 }
 
 type ModelBSpeedData struct {
-	Odometer int `json:"odometer"`
+	Odometer *int `json:"odometer"`
 }
 
 type ModelCDataPoint struct {
