@@ -54,6 +54,6 @@ func ParseOdometer(input string) (int, error) {
 		return 0, ErrOdometerNotFound
 
 	default:
-		return 0, nil
+		return 0, ErrModelNotFound
 	}
 }

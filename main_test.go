@@ -150,6 +150,14 @@ func TestMain(t *testing.T) {
 			}`,
 			expErr: ErrOdometerNotFound,
 		},
+		{
+			name: "invalid model",
+			input: `{
+				"model": "invalid-model",
+				"data": {}
+			}`,
+			expErr: ErrModelNotFound,
+		},
 	}
 
 	for _, tc := range tt {
